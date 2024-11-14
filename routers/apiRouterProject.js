@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
-const { validateInput } = require('../middlewares/validateInputs');
+const { validateInputs } = require('../middlewares/validateInputs');
 const { 
     getAllProjectsByUser, 
     getProjectById, 
@@ -18,7 +18,7 @@ router.get('/user/:id', [
     check('id')
         .notEmpty().withMessage('El ID es requerido')
         .isInt().withMessage('El ID debe ser un número entero'),
-    validateInput
+    validateInputs
 ], getAllProjectsByUser);
 
 // Obtener un proyecto específico por ID
@@ -26,7 +26,7 @@ router.get('/project/:id', [
     check('id')
         .notEmpty().withMessage('El ID es requerido')
         .isInt().withMessage('El ID debe ser un número entero'),
-    validateInput
+    validateInputs
 ], getProjectById);
 
 // Crear un nuevo proyecto
@@ -46,7 +46,7 @@ router.post('/', [
     check('end_date')
         .optional()
         .isISO8601().withMessage('La fecha de fin debe ser una fecha válida'),
-    validateInput
+    validateInputs
 ], createProject);
 
 // Actualizar un proyecto por ID
@@ -66,7 +66,7 @@ router.put('/project/:id', [
     check('end_date')
         .optional()
         .isISO8601().withMessage('La fecha de fin debe ser una fecha válida'),
-    validateInput
+    validateInputs
 ], updateProject);
 
 // Eliminar un proyecto por ID
@@ -74,7 +74,7 @@ router.delete('/project/:id', [
     check('id')
         .notEmpty().withMessage('El ID del proyecto es requerido')
         .isInt().withMessage('El ID debe ser un número'),
-    validateInput
+    validateInputs
 ], deleteProject);
 
 /* Exportación de rutas */
