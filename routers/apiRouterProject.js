@@ -1,12 +1,15 @@
 /* Importaciones */
 const express = require('express');
 const router = express.Router();
+const upload = require('../middlewares/uploadMiddleware');
 const { check } = require('express-validator');
 const { validateInputs } = require('../middlewares/validateInputs');
 const { 
     getAllProjectsByUser, 
     getProjectById, 
-    createProject, 
+    createProject,
+    addProjectResource,
+    deleteProjectResource, 
     updateProject, 
     deleteProject 
 } = require('../controllers/projectController');
@@ -48,6 +51,35 @@ router.post('/', [
         .isISO8601().withMessage('La fecha de fin debe ser una fecha válida'),
     validateInputs
 ], createProject);
+
+// Crear un recurso al proyecto
+router.post('/project/:id/upload', [
+    check('id').isInt().withMessage('El ID del proyecto debe ser un número'),
+    validateInputs,
+    upload.single('file')
+], addProjectResource);
+
+// Eliminar un recurso de un proyecto
+router.delete('/project/:id/resource/:resource_id', [
+    check('id')
+        .notEmpty().withMessage('El ID del proyecto es requerido')
+        .isInt().withMessage('El ID debe ser un número'),
+    check('resource_id')
+        .notEmpty().withMessage('El ID del recurso es requerido')
+        .isInt().withMessage('El ID debe ser un número'),
+    validateInputs
+], deleteProjectResource);
+
+// Eliminar un recurso de un proyecto
+router.delete('/project/:id/resource/:resource_id', [
+    check('id')
+        .notEmpty().withMessage('El ID del proyecto es requerido')
+        .isInt().withMessage('El ID debe ser un número'),
+    check('resource_id')
+        .notEmpty().withMessage('El ID del recurso es requerido')
+        .isInt().withMessage('El ID debe ser un número'),
+    validateInputs
+], deleteProjectResource);
 
 // Actualizar un proyecto por ID
 router.put('/project/:id', [

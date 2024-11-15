@@ -40,6 +40,18 @@ CREATE TABLE assignments (
     UNIQUE (project_id, user_id)
 );
 
+-- RECURSOS DE PROYECTO -- 
+CREATE TABLE project_resources (
+    resource_id SERIAL PRIMARY KEY,
+    project_id INT NOT NULL REFERENCES projects(project_id) ON DELETE CASCADE,
+    user_id INT NOT NULL REFERENCES users(user_id),
+    file_name VARCHAR(255) NOT NULL,
+    file_type VARCHAR(100) NOT NULL,
+    file_url TEXT NOT NULL,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 -- DATOS DE PRUEBA --
 INSERT INTO global_roles (role_name) VALUES
 ('Admin'),

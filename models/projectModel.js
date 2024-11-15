@@ -34,6 +34,28 @@ const createProjectModel = async (name, description, createdBy, startDate, endDa
     }
 };
 
+// Añadir un recurso al proyecto
+const addProjectResourceModel = async (projectId, userId, fileName, fileType, fileUrl) => {
+    try {
+        const result = await runQuery(projects.addProjectResource, [projectId, userId, fileName, fileType, fileUrl]);
+        return result.rows[0];
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
+// Eliminar un recurso de un proyecto
+const deleteProjectResourceModel = async (projectId, resourceId) => {
+    try {
+        const result = await runQuery(projects.deleteProjectResource, [projectId, resourceId]);
+        return result.rows[0];
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
 // Actualizar un proyecto por ID
 const updateProjectModel = async (projectId, name, description, startDate, endDate) => {
     try {
@@ -60,6 +82,8 @@ module.exports = {
     getAllProjectsByUserModel,
     getProjectByIdModel,
     createProjectModel,
+    addProjectResourceModel,
+    deleteProjectResourceModel,
     updateProjectModel,
     deleteProjectModel,
 };

@@ -22,6 +22,19 @@ const projects = {
     RETURNING *
     `,
 
+    deleteProjectResource: `
+    DELETE FROM project_resources
+    WHERE project_id = $1 AND resource_id = $2
+    RETURNING *
+    `,
+
+    // Crear un recurso en un proyecto
+    addProjectResource: `
+    INSERT INTO project_resources (project_id, user_id, file_name, file_type, file_url)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *
+    `,
+
     // Actualizar un proyecto específico por ID
     updateProject: `
     UPDATE projects
