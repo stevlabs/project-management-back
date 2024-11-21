@@ -34,28 +34,6 @@ const createProjectModel = async (name, description, createdBy, startDate, endDa
     }
 };
 
-// Añadir un recurso al proyecto
-const addProjectResourceModel = async (projectId, userId, fileName, fileType, fileUrl) => {
-    try {
-        const result = await runQuery(projects.addProjectResource, [projectId, userId, fileName, fileType, fileUrl]);
-        return result.rows[0];
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
-};
-
-// Eliminar un recurso de un proyecto
-const deleteProjectResourceModel = async (projectId, resourceId) => {
-    try {
-        const result = await runQuery(projects.deleteProjectResource, [projectId, resourceId]);
-        return result.rows[0];
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
-};
-
 // Actualizar un proyecto por ID
 const updateProjectModel = async (projectId, name, description, startDate, endDate) => {
     try {
@@ -66,6 +44,7 @@ const updateProjectModel = async (projectId, name, description, startDate, endDa
         throw error;
     }
 };
+
 
 // Eliminar un proyecto por ID
 const deleteProjectModel = async (projectId) => {
@@ -78,12 +57,47 @@ const deleteProjectModel = async (projectId) => {
     }
 };
 
+// Obtener todos los recursos de un proyecto por ID
+const getAllProjectResourcesModel = async (projectId) => {
+    try {
+        const result = await runQuery(projects.getAllProjectResources, [projectId]);
+        return result.rows;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
+
+// Añadir un recurso al proyecto
+const createProjectResourceModel = async (projectId, userId, fileName, fileType, fileUrl) => {
+    try {
+        const result = await runQuery(projects.createProjectResource, [projectId, userId, fileName, fileType, fileUrl]);
+        return result.rows[0];
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
+// Eliminar un recurso de un proyecto
+const deleteProjectResourceModel = async (resourceId) => {
+    try {
+        const result = await runQuery(projects.deleteProjectResource, [resourceId]);
+        return result.rows[0];
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
 module.exports = {
     getAllProjectsByUserModel,
     getProjectByIdModel,
     createProjectModel,
-    addProjectResourceModel,
-    deleteProjectResourceModel,
     updateProjectModel,
     deleteProjectModel,
+    getAllProjectResourcesModel,
+    createProjectResourceModel,
+    deleteProjectResourceModel,
 };

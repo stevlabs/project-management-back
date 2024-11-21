@@ -22,19 +22,6 @@ const projects = {
     RETURNING *
     `,
 
-    deleteProjectResource: `
-    DELETE FROM project_resources
-    WHERE project_id = $1 AND resource_id = $2
-    RETURNING *
-    `,
-
-    // Crear un recurso en un proyecto
-    addProjectResource: `
-    INSERT INTO project_resources (project_id, user_id, file_name, file_type, file_url)
-    VALUES ($1, $2, $3, $4, $5)
-    RETURNING *
-    `,
-
     // Actualizar un proyecto específico por ID
     updateProject: `
     UPDATE projects
@@ -54,17 +41,28 @@ const projects = {
     RETURNING *
     `,
 
-    // Actualización parcial de un proyecto (PATCH)
-    partialUpdateProject: `
-    UPDATE projects
-    SET 
-        name = COALESCE($2, name),
-        description = COALESCE($3, description),
-        start_date = COALESCE($4, start_date),
-        end_date = COALESCE($5, end_date)
+    // Obtener todos los recursos de un projecto
+    getAllProjectResources: `
+    SELECT project_resources.*
+    FROM project_resources
     WHERE project_id = $1
+    ORDER BY uploaded_at DESC
+    `,
+
+    // Crear un recurso en un proyecto
+    createProjectResource: `
+    INSERT INTO project_resources (project_id, user_id, file_name, file_type, file_url)
+    VALUES ($1, $2, $3, $4, $5)
     RETURNING *
-    `
+    `,
+
+    // Eliminar un recurso de un proyecto
+    deleteProjectResource: `
+    DELETE FROM project_resources
+    WHERE resource_id = $1
+    RETURNING *
+    `,
+
 };
 
 module.exports = {

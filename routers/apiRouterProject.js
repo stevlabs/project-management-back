@@ -8,10 +8,12 @@ const {
     getAllProjectsByUser, 
     getProjectById, 
     createProject,
-    addProjectResource,
-    deleteProjectResource, 
     updateProject, 
-    deleteProject 
+    deleteProject,
+    getAllProjectResources,
+    createProjectResource,
+    deleteProjectResource, 
+    serveFile
 } = require('../controllers/projectController');
 
 /* Rutas para CRUD de proyectos */
@@ -52,35 +54,6 @@ router.post('/', [
     validateInputs
 ], createProject);
 
-// Crear un recurso al proyecto
-router.post('/project/:id/upload', [
-    check('id').isInt().withMessage('El ID del proyecto debe ser un número'),
-    validateInputs,
-    upload.single('file')
-], addProjectResource);
-
-// Eliminar un recurso de un proyecto
-router.delete('/project/:id/resource/:resource_id', [
-    check('id')
-        .notEmpty().withMessage('El ID del proyecto es requerido')
-        .isInt().withMessage('El ID debe ser un número'),
-    check('resource_id')
-        .notEmpty().withMessage('El ID del recurso es requerido')
-        .isInt().withMessage('El ID debe ser un número'),
-    validateInputs
-], deleteProjectResource);
-
-// Eliminar un recurso de un proyecto
-router.delete('/project/:id/resource/:resource_id', [
-    check('id')
-        .notEmpty().withMessage('El ID del proyecto es requerido')
-        .isInt().withMessage('El ID debe ser un número'),
-    check('resource_id')
-        .notEmpty().withMessage('El ID del recurso es requerido')
-        .isInt().withMessage('El ID debe ser un número'),
-    validateInputs
-], deleteProjectResource);
-
 // Actualizar un proyecto por ID
 router.put('/project/:id', [
     check('id')
@@ -108,6 +81,33 @@ router.delete('/project/:id', [
         .isInt().withMessage('El ID debe ser un número'),
     validateInputs
 ], deleteProject);
+
+// Obtener todos los recursos de un proyecto por ID
+router.get('/project/:id/resources', [
+    check('id')
+        .notEmpty().withMessage('El ID del proyecto es requerido')
+        .isInt().withMessage('El ID debe ser un número'),
+    validateInputs
+], getAllProjectResources);
+
+// Crear un recurso al proyecto
+router.post('/project/:id/upload', [
+    check('id').isInt().withMessage('El ID del proyecto debe ser un número'),
+    validateInputs,
+    upload.single('file')
+], createProjectResource);
+
+// Eliminar un recurso de un proyecto
+router.delete('/resource/:id', [
+    check('id')
+        .notEmpty().withMessage('El ID del proyecto es requerido')
+        .isInt().withMessage('El ID debe ser un número'),
+    validateInputs
+], deleteProjectResource);
+
+// Obtener archivos
+router.get('/uploads/:filename', serveFile);
+
 
 /* Exportación de rutas */
 module.exports = router;
