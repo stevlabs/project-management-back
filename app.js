@@ -14,6 +14,7 @@ app.use(cors());
 
 /* Rutas */
 app.use('/api/v1/projects', require('./routers/apiRouterProject'))
+app.use('/api/v1/auth', require('./routers/apiRouterAuth'))
 
 /* Servidor a la escucha */
 app.listen(port, ()=>{
